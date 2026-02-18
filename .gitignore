@@ -1,1 +1,57 @@
-/data
+# Data files (ignore actual data)
+data/raw/
+data/processed/
+data/interim/
+data/external/
+
+# But keep DVC metadata files (important!)
+!*.dvc
+!.dvc/
+
+# Model files
+models/
+*.pt
+*.pkl
+*.h5
+*.pth
+*.onnx
+best_model.pt
+final_model.pt
+
+# MLflow
+mlruns/
+mlflow.db
+*.db
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+.pytest_cache/
+
+# Virtual environment
+venv/
+env/
+ENV/
+myenv/
+*.egg-info/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+
+# Docker
+*.pid
+*.sock
+
+# Test outputs
+.coverage
+htmlcov/
