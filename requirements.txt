@@ -13,3 +13,6 @@ prometheus-client>=0.16
 pydantic>=2.0
 requests>=2.31
 python-multipart==0.0.21
+pillow>=9.0
+torch>=1.9.0
+torchvision>=0.10.0

@@ -1,0 +1,53 @@
+{
+    "info": {
+        "artifact_uri": "/content/drive/MyDrive/MLOPS/Assignment-2/binary_image_classification/mlruns/1/7ae3a091f7394c5b89dd8c6d0563f749/artifacts",
+        "end_time": 1771444166616,
+        "experiment_id": "1",
+        "lifecycle_stage": "active",
+        "run_id": "7ae3a091f7394c5b89dd8c6d0563f749",
+        "run_name": "honorable-hog-12",
+        "start_time": 1771443023818,
+        "status": "FINISHED",
+        "user_id": "root"
+    },
+    "data": {
+        "metrics": {
+            "train_loss": 0.3067722629070282,
+            "train_accuracy": 87.00870087008701,
+            "val_loss": 0.25363772192710565,
+            "val_accuracy": 90.1120896717374,
+            "test_accuracy": 89.60415833666534
+        },
+        "params": {
+            "model_type": "simple_cnn",
+            "batch_size": "32",
+            "learning_rate": "0.001",
+            "epochs": "10",
+            "device": "cuda",
+            "experiment_name": "cats_vs_dogs_simple_cnn",
+            "input_size": "(224, 224)",
+            "num_classes": "2",
+            "num_workers": "2",
+            "seed": "42"
+        },
+        "tags": {
+            "mlflow.user": "root",
+            "mlflow.source.name": "/content/drive/MyDrive/MLOPS/Assignment-2/binary_image_classification/src/train.py",
+            "mlflow.source.type": "LOCAL",
+            "mlflow.source.git.commit": "47615ecb2465bc84e4edecf41449e8601ff53431",
+            "mlflow.runName": "honorable-hog-12"
+        }
+    },
+    "inputs": {
+        "model_inputs": [],
+        "dataset_inputs": []
+    },
+    "outputs": {
+        "model_outputs": [
+            {
+                "model_id": "m-3bad473b4a1741ec8763190b40ca058c",
+                "step": 0
+            }
+        ]
+    }
+}

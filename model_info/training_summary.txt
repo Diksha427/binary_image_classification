@@ -1,0 +1,144 @@
+============================================================
+CATS VS DOGS CLASSIFIER TRAINING
+============================================================
+
+Configuration:
+  model_type: simple_cnn
+  batch_size: 32
+  learning_rate: 0.001
+  epochs: 10
+  device: cuda
+  experiment_name: cats_vs_dogs_simple_cnn
+  input_size: (224, 224)
+  num_classes: 2
+  num_workers: 2
+  seed: 42
+
+Using device: cuda
+2026/02/18 19:30:12 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.schemas
+2026/02/18 19:30:12 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.tables
+2026/02/18 19:30:12 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.types
+2026/02/18 19:30:12 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.constraints
+2026/02/18 19:30:12 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.defaults
+2026/02/18 19:30:12 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.comments
+2026/02/18 19:30:12 INFO alembic.runtime.migration: Context impl SQLiteImpl.
+2026/02/18 19:30:12 INFO alembic.runtime.migration: Will assume non-transactional DDL.
+
+=== Loading Data ===
+Train samples: 19998
+Validation samples: 2498
+Test samples: 2501
+Classes: ['cats', 'dogs']
+
+Initializing SimpleCNN model...
+Total parameters: 26,145,922
+Trainable parameters: 26,145,922
+
+============================================================
+STARTING TRAINING
+============================================================
+
+Epoch 1/10
+----------------------------------------
+Training: 100% 625/625 [03:09<00:00,  3.30it/s, Loss=0.6616, Acc=59.50%]
+Validating: 100% 79/79 [00:07<00:00, 10.84it/s]
+
+Train Loss: 0.7794, Train Acc: 59.50%
+Val Loss: 0.6164, Val Acc: 69.86%
+✓ New best model saved! (Val Acc: 69.86%)
+
+Epoch 2/10
+----------------------------------------
+Training: 100% 625/625 [01:36<00:00,  6.50it/s, Loss=0.5662, Acc=67.50%]
+Validating: 100% 79/79 [00:07<00:00, 10.94it/s]
+
+Train Loss: 0.5983, Train Acc: 67.50%
+Val Loss: 0.5634, Val Acc: 73.78%
+✓ New best model saved! (Val Acc: 73.78%)
+
+Epoch 3/10
+----------------------------------------
+Training: 100% 625/625 [01:35<00:00,  6.52it/s, Loss=0.4255, Acc=72.07%]
+Validating: 100% 79/79 [00:07<00:00, 10.62it/s]
+
+Train Loss: 0.5564, Train Acc: 72.07%
+Val Loss: 0.5249, Val Acc: 75.46%
+✓ New best model saved! (Val Acc: 75.46%)
+
+Epoch 4/10
+----------------------------------------
+Training: 100% 625/625 [01:36<00:00,  6.47it/s, Loss=0.4249, Acc=75.41%]
+Validating: 100% 79/79 [00:07<00:00, 10.16it/s]
+
+Train Loss: 0.5128, Train Acc: 75.41%
+Val Loss: 0.4933, Val Acc: 78.50%
+✓ New best model saved! (Val Acc: 78.50%)
+
+Epoch 5/10
+----------------------------------------
+Training: 100% 625/625 [01:40<00:00,  6.22it/s, Loss=0.4707, Acc=78.40%]
+Validating: 100% 79/79 [00:07<00:00, 10.86it/s]
+
+Train Loss: 0.4675, Train Acc: 78.40%
+Val Loss: 0.4997, Val Acc: 75.58%
+
+Epoch 6/10
+----------------------------------------
+Training: 100% 625/625 [01:35<00:00,  6.53it/s, Loss=0.5313, Acc=80.43%]
+Validating: 100% 79/79 [00:07<00:00, 10.82it/s]
+
+Train Loss: 0.4359, Train Acc: 80.43%
+Val Loss: 0.3978, Val Acc: 83.87%
+✓ New best model saved! (Val Acc: 83.87%)
+
+Epoch 7/10
+----------------------------------------
+Training: 100% 625/625 [01:34<00:00,  6.59it/s, Loss=0.2627, Acc=82.87%]
+Validating: 100% 79/79 [00:07<00:00, 10.92it/s]
+
+Train Loss: 0.3896, Train Acc: 82.87%
+Val Loss: 0.3209, Val Acc: 87.83%
+✓ New best model saved! (Val Acc: 87.83%)
+
+Epoch 8/10
+----------------------------------------
+Training: 100% 625/625 [01:34<00:00,  6.61it/s, Loss=0.3087, Acc=84.28%]
+Validating: 100% 79/79 [00:06<00:00, 11.33it/s]
+
+Train Loss: 0.3612, Train Acc: 84.28%
+Val Loss: 0.3369, Val Acc: 86.99%
+
+Epoch 9/10
+----------------------------------------
+Training: 100% 625/625 [01:33<00:00,  6.67it/s, Loss=0.2700, Acc=86.22%]
+Validating: 100% 79/79 [00:07<00:00, 11.23it/s]
+
+Train Loss: 0.3285, Train Acc: 86.22%
+Val Loss: 0.2859, Val Acc: 89.67%
+✓ New best model saved! (Val Acc: 89.67%)
+
+Epoch 10/10
+----------------------------------------
+Training: 100% 625/625 [01:33<00:00,  6.71it/s, Loss=0.2892, Acc=87.01%]
+Validating: 100% 79/79 [00:07<00:00, 11.11it/s]
+
+Train Loss: 0.3068, Train Acc: 87.01%
+Val Loss: 0.2536, Val Acc: 90.11%
+✓ New best model saved! (Val Acc: 90.11%)
+
+============================================================
+TRAINING COMPLETED
+============================================================
+
+Evaluating on test set...
+Testing: 100% 79/79 [00:07<00:00, 10.97it/s]
+
+Test Accuracy: 89.60%
+2026/02/18 19:49:17 WARNING mlflow.models.model: `artifact_path` is deprecated. Please use `name` instead.
+2026/02/18 19:49:17 WARNING mlflow.pytorch: Saving pytorch model by Pickle or CloudPickle format requires exercising caution because these formats rely on Python's object serialization mechanism, which can execute arbitrary code during deserialization.The recommended safe alternative is to set 'export_model' to True to save the pytorch model using the safe graph model format.
+2026/02/18 19:49:18 WARNING mlflow.utils.requirements_utils: Found torch version (2.9.0+cu128) contains a local version label (+cu128). MLflow logged a pip requirement for this package as 'torch==2.9.0' without the local version label to make it installable from PyPI. To specify pip requirements containing local version labels, please use `conda_env` or `pip_requirements`.
+2026/02/18 19:49:26 WARNING mlflow.utils.requirements_utils: Found torchvision version (0.24.0+cu128) contains a local version label (+cu128). MLflow logged a pip requirement for this package as 'torchvision==0.24.0' without the local version label to make it installable from PyPI. To specify pip requirements containing local version labels, please use `conda_env` or `pip_requirements`.
+
+ Training complete!
+Model saved to: /content/drive/MyDrive/MLOPS/Assignment-2/binary_image_classification/models/final_model.pt
+MLflow Run ID: 7ae3a091f7394c5b89dd8c6d0563f749
