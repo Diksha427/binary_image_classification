@@ -1,0 +1,18 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-8.4.2, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /content/drive/MyDrive/MLOPS/Assignment-2/binary_image_classification
+plugins: hydra-core-1.3.2, langsmith-0.7.1, anyio-4.12.1, typeguard-4.4.4
+collected 9 items                                                              
+
+tests/test_inference.py::TestAPI::test_health_endpoint PASSED            [ 11%]
+tests/test_inference.py::TestAPI::test_root_endpoint PASSED              [ 22%]
+tests/test_inference.py::TestAPI::test_predict_endpoint_no_file PASSED   [ 33%]
+tests/test_inference.py::TestAPI::test_predict_endpoint_with_dummy_image PASSED [ 44%]
+tests/test_model.py::TestModel::test_model_initialization PASSED         [ 55%]
+tests/test_model.py::TestModel::test_model_forward_shape PASSED          [ 66%]
+tests/test_preprocessing.py::TestPreprocessing::test_preprocess_image_shape PASSED [ 77%]
+tests/test_preprocessing.py::TestPreprocessing::test_preprocess_image_normalization PASSED [ 88%]
+tests/test_preprocessing.py::TestPreprocessing::test_preprocess_rgb_conversion PASSED [100%]
+
+============================== 9 passed in 4.97s ===============================
