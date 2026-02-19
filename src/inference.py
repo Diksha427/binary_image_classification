@@ -1,5 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, File, UploadFile, HTTPException, Response  # Added Response
 import torch
 import torch.nn as nn
 from torchvision import transforms
@@ -9,6 +8,8 @@ import numpy as np
 import logging
 from pathlib import Path
 import sys
+from prometheus_client import Counter, Histogram, generate_latest
+import time
 
 # Add parent directory to path
 sys.path.append(str(Path(__file__).parent.parent))
@@ -23,11 +24,15 @@ app = FastAPI(title="Cats vs Dogs Classifier",
               description="API for classifying cats and dogs images",
               version="1.0.0")
 
+# Metrics
+REQUEST_COUNT = Counter('http_requests_total', 'Total HTTP requests')
+PREDICTION_TIME = Histogram('prediction_duration_seconds', 'Prediction duration')
+
 # Device configuration
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Load model
-MODEL_PATH = Path(__file__).parent.parent / "models" / "best_model.pt"  # or final_model.pt
+MODEL_PATH = Path(__file__).parent.parent / "models" / "best_model.pt"
 
 try:
     # Initialize model
@@ -43,9 +48,9 @@ try:
         
         model.to(device)
         model.eval()
-        logger.info(f" Model loaded successfully from {MODEL_PATH}")
+        logger.info(f"✅ Model loaded successfully from {MODEL_PATH}")
     else:
-        logger.warning(f" Model not found at {MODEL_PATH}")
+        logger.warning(f"❌ Model not found at {MODEL_PATH}")
         model = None
         
 except Exception as e:
@@ -73,6 +78,7 @@ def preprocess_image(image: Image.Image) -> torch.Tensor:
 @app.get("/")
 async def root():
     """Root endpoint"""
+    REQUEST_COUNT.inc()
     return {
         "message": "Cats vs Dogs Classifier API",
         "version": "1.0.0",
@@ -80,6 +86,7 @@ async def root():
         "endpoints": {
             "/health": "Health check",
             "/predict": "Make prediction (POST image file)",
+            "/metrics": "Prometheus metrics",
             "/docs": "Swagger documentation"
         }
     }
@@ -87,6 +94,7 @@ async def root():
 @app.get("/health")
 async def health():
     """Health check endpoint"""
+    REQUEST_COUNT.inc()
     if model is None:
         return {"status": "degraded", "model_loaded": False}
     return {
@@ -99,10 +107,10 @@ async def health():
 async def predict(file: UploadFile = File(...)):
     """
     Predict whether an image contains a cat or a dog
-    
-    - Upload an image file (jpg, jpeg, png)
-    - Returns class prediction and confidence
     """
+    REQUEST_COUNT.inc()
+    start_time = time.time()
+    
     # Check if model is loaded
     if model is None:
         raise HTTPException(status_code=503, detail="Model not loaded")
@@ -144,65 +152,21 @@ async def predict(file: UploadFile = File(...)):
             }
         }
         
-        logger.info(f"Prediction: {response['prediction']} with confidence {confidence:.4f}")
+        # Record prediction time
+        duration = time.time() - start_time
+        PREDICTION_TIME.observe(duration)
+        
+        logger.info(f"Prediction: {response['prediction']} with confidence {confidence:.4f} (took {duration:.3f}s)")
         return response
         
     except Exception as e:
         logger.error(f"Error processing {file.filename}: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/predict_base64")
-async def predict_base64(image_data: dict):
-    """
-    Predict from base64 encoded image
-    """
-    import base64
-    
-    if model is None:
-        raise HTTPException(status_code=503, detail="Model not loaded")
-    
-    try:
-        # Decode base64 image
-        image_bytes = base64.b64decode(image_data['image'])
-        image = Image.open(io.BytesIO(image_bytes))
-        
-        # Preprocess
-        input_tensor = preprocess_image(image)
-        
-        # Make prediction
-        with torch.no_grad():
-            outputs = model(input_tensor)
-            probabilities = torch.softmax(outputs, dim=1)[0]
-        
-        predicted_class = torch.argmax(probabilities).item()
-        classes = ['cat', 'dog']
-        
-        return {
-            "prediction": classes[predicted_class],
-            "confidence": round(probabilities[predicted_class].item(), 4),
-            "probabilities": {
-                "cat": round(probabilities[0].item(), 4),
-                "dog": round(probabilities[1].item(), 4)
-            }
-        }
-        
-    except Exception as e:
-        logger.error(f"Error processing base64 image: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.get("/info")
-async def model_info():
-    """Get model information"""
-    if model is None:
-        return {"error": "Model not loaded"}
-    
-    return {
-        "model_type": "SimpleCNN",
-        "input_size": "224x224",
-        "num_classes": 2,
-        "classes": ["cat", "dog"],
-        "device": str(device)
-    }
+@app.get("/metrics")
+async def metrics():
+    """Prometheus metrics endpoint"""
+    return Response(content=generate_latest(), media_type="text/plain")
 
 # For local testing
 if __name__ == "__main__":
