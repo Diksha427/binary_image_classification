@@ -48,9 +48,9 @@ try:
         
         model.to(device)
         model.eval()
-        logger.info(f"✅ Model loaded successfully from {MODEL_PATH}")
+        logger.info(f" Model loaded successfully from {MODEL_PATH}")
     else:
-        logger.warning(f"❌ Model not found at {MODEL_PATH}")
+        logger.warning(f" Model not found at {MODEL_PATH}")
         model = None
         
 except Exception as e:

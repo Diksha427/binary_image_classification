@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: classifier
-        image: yourusername/cats-dogs-classifier:latest
+        image: ghcr.io/diksha427/binary_image_classification:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8000
         livenessProbe:

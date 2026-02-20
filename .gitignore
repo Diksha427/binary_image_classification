@@ -9,14 +9,14 @@ data/external/
 !.dvc/
 
 # Model files
-models/
-*.pt
-*.pkl
-*.h5
-*.pth
-*.onnx
-best_model.pt
-final_model.pt
+#models/
+#*.pt
+#*.pkl
+#*.h5
+#*.pth
+#*.onnx
+#best_model.pt
+#final_model.pt
 
 # MLflow
 mlruns/
