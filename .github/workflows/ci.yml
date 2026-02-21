@@ -78,3 +78,16 @@ jobs:
             ghcr.io/diksha427/binary_image_classification:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f kubernetes/deployment.yaml
+          kubectl apply -f kubernetes/service.yaml
+
+      - name: Smoke Test
+        run: |
+          sleep 15
+          curl http://localhost:8000/health
