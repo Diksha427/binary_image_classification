@@ -81,12 +81,7 @@ jobs:
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
-
-      - name: Deploy to Kubernetes
-        run: |
-          kubectl apply -f kubernetes/deployment.yaml
-          kubectl apply -f kubernetes/service.yaml
-
+        
       - name: Smoke Test
         run: |
           sleep 15
