@@ -79,5 +79,12 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v3
+      - name: Run container
+        run: |
+         docker run -d -p 8000:8000 ghcr.io/diksha427/binary_image_classification:latest
+
+      - name: Wait for app
+        run: sleep 10
+
+      - name: Smoke test
+        run: curl http://localhost:8000/health  
