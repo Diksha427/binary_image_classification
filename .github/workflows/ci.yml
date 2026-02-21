@@ -79,10 +79,12 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Run container
-        run: |
-         docker run -d -p 8000:8000 ghcr.io/diksha427/binary_image_classification:latest
+      - name: Install docker compose
+        run: sudo apt-get install docker-compose -y
 
+      - name: Run service with docker compose
+        run: docker-compose up -d
+        
       - name: Wait for app
         run: sleep 10
 
