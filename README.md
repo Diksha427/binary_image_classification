@@ -6,8 +6,9 @@ Production-ready deep learning pipeline for binary image classification (Cats vs
 * MLflow experiment tracking
 * FastAPI inference service (/predict, /health, /metrics)
 * Docker containerization
-* Kubernetes deployment manifests (Minikube-friendly)
+* Docker Compose deployment
 * CI/CD with GitHub Actions (lint, tests, build, push)
+* Automated CD with smoke testing
 * Basic monitoring via Prometheus metrics
 
 > Author: Diksha Gupta  
@@ -55,41 +56,48 @@ docker run --rm -p 8000:8000 cats-dogs-classifier:latest
 ghcr.io/diksha427/binary_image_classification:latest
 ```
 
-## 4. Kubernetes (Minikube-Friendly)
+## 4. Deployment (Docker Compose)
 ```
-Uses standard Deployment + Service
+This project uses Docker Compose as the deployment target.
 
-Exposes container port 8000
+The CI/CD pipeline automatically deploys the service inside the GitHub Actions runner.
 
-# Start Minikube
-minikube start
+Local Deployment (Optional)
 
-# Deploy Application
-kubectl apply -f deployment.yaml
-kubectl apply -f service.yaml
+If Docker is available:
+docker pull ghcr.io/diksha427/binary_image_classification:latest
+docker compose up
 
-# Access Service
-If using NodePort:
-minikube service cats-dogs-classifier --url
-
-# If using LoadBalancer:
-minikube tunnel
-kubectl get svc
-
-Then access:http://<external-ip>:8000/docs
+Access:
+http://localhost:8000/docs
 ```
 
 ## 5. CI/CD (GitHub Actions)
-```
-# Workflow located in:
+
+This project uses GitHub Actions for automated CI/CD.
+
+### Workflow located in:
 .github/workflows/ci.yml
 
-# Runs on push to main:
-flake8 lint check
-pytest unit tests
-Docker image build
-Push to GitHub Container Registry (GHCR)
+### On every push to main branch:
 
+* Code checkout
+* Dependency installation
+* Linting (flake8)
+* Unit tests (pytest)
+* Docker image build
+* Image push to GitHub Container Registry
+* Deployment via Docker Compose
+* Automated smoke test (/health endpoint)
+  
+```
+Smoke Test
+curl http://localhost:8000/health
+
+Pipeline fails automatically if deployment fails.
+```
+
+```
 # Tests include:
 Model forward pass
 Preprocessing validation
@@ -102,9 +110,6 @@ binary_image_classification/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml
-├── kubernetes/
-│   ├── deployment.yaml
-│   └── service.yaml
 ├── src/
 │   ├── __init__.py
 │   ├── data.py
@@ -123,6 +128,7 @@ binary_image_classification/
 │   └── classification_report.json
 ├── data/
 │   └── processed.dvc
+├── docker-compose.yml
 ├── Dockerfile
 ├── requirements.txt
 ├── .gitignore
@@ -181,11 +187,13 @@ MLflow tracking is optional for deployment and used only during development.
 ## 9. Notes
 ```
 The trained model (models/best_model.pt) is version-controlled for reproducible deployment.
-Docker image is built automatically via GitHub Actions.
-Kubernetes deployment uses 2 replicas with readiness & liveness probes.
-Public GHCR registry eliminates need for imagePullSecrets.
+Docker image is automatically built and pushed to GitHub Container Registry.
+Deployment is handled via Docker Compose.
+Smoke tests validate successful deployment.
+MLflow tracking is used during development only.
 ```
 
 ## 10. License
 Educational use for assignment submission.
+
 
