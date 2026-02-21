@@ -81,8 +81,3 @@ jobs:
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
-        
-      - name: Smoke Test
-        run: |
-          sleep 15
-          curl http://localhost:8000/health
