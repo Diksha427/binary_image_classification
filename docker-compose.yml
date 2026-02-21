@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  ml-api:
+    image: ghcr.io/diksha427/binary_image_classification:latest
+    ports:
+      - "8000:8000"
