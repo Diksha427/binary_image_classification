@@ -24,7 +24,7 @@ Production-ready deep learning pipeline for binary image classification (Cats vs
 * Train / Validation / Test split applied
 * Normalization using ImageNet mean & std
 
-## 2. Quick Start (Local)
+## 2. Quick Start
 ```
 # Create & activate virtual env
 python -m venv .venv
@@ -195,5 +195,6 @@ MLflow tracking is used during development only.
 
 ## 10. License
 Educational use for assignment submission.
+
 
 
